@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
+
 // Usar el middleware cors
 app.use(cors());
 
@@ -23,6 +24,8 @@ db.connect((err) => {
     console.log('Conectado a la base de datos MySQL');
 });
 
+
+app.use(express.json());
 // Ruta de prueba para verificar la conexión
 app.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE nodemysql';
@@ -37,14 +40,21 @@ app.put('/api/items/:id/price', (req, res) => {
     const { id } = req.params;
     const { price } = req.body;
 
-    const query = 'UPDATE products SET price = ? WHERE id = ?';
+    if (!price) {
+        res.status(400).json({ message: 'El precio es requerido' });
+        return;
+    }
 
+    const query = 'UPDATE products SET price = ? WHERE id = ?';
     db.query(query, [price, id], (err, result) => {
         if (err) {
             res.status(500).json({ message: err.message });
             return;
         }
-
+        if (result.affectedRows === 0) {
+            res.status(404).json({ message: 'Producto no encontrado' });
+            return;
+        }
         res.status(200).json({ message: 'Precio actualizado correctamente' });
     });
 });
