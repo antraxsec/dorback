@@ -52,38 +52,40 @@ app.put('/api/items/:id/price', (req, res) => {
 // Ruta para obtener los productos con sus categorías
 app.get('/api/items', (req, res) => {
     const query = `
-        SELECT 
-            c.id as category_id, 
-            c.code as category_code, 
-            c.name as category_name, 
-            c.created_at as category_created_at, 
-            c.updated_at as category_updated_at, 
-            c.deleted_at as category_deleted_at,
-            p.id as product_id,
-            p.type as product_type,
-            p.code as product_code,
-            p.Type_barcode as product_barcode_type,
-            p.name as product_name,
-            p.cost as product_cost,
-            p.price as product_price,
-            p.brand_id as product_brand_id,
-            p.unit_id as product_unit_id,
-            p.unit_sale_id as product_unit_sale_id,
-            p.unit_purchase_id as product_unit_purchase_id,
-            p.TaxNet as product_tax_net,
-            p.tax_method as product_tax_method,
-            p.image as product_image,
-            p.note as product_note,
-            p.stock_alert as product_stock_alert,
-            p.is_variant as product_is_variant,
-            p.is_imei as product_is_imei,
-            p.not_selling as product_not_selling,
-            p.is_active as product_is_active,
-            p.created_at as product_created_at,
-            p.updated_at as product_updated_at,
-            p.deleted_at as product_deleted_at
-        FROM categories c
-        LEFT JOIN products p ON c.id = p.category_id
+       SELECT
+    c.id as category_id,
+    c.code as category_code,
+    c.name as category_name,
+    c.created_at as category_created_at,
+    c.updated_at as category_updated_at,
+    c.deleted_at as category_deleted_at,
+    p.id as product_id,
+    p.type as product_type,
+    p.code as product_code,
+    p.Type_barcode as product_barcode_type,
+    p.name as product_name,
+    p.cost as product_cost,
+    p.price as product_price,
+    p.brand_id as product_brand_id,
+    p.unit_id as product_unit_id,
+    p.unit_sale_id as product_unit_sale_id,
+    p.unit_purchase_id as product_unit_purchase_id,
+    p.TaxNet as product_tax_net,
+    p.tax_method as product_tax_method,
+    p.image as product_image,
+    p.note as product_note,
+    p.stock_alert as product_stock_alert,
+    p.is_variant as product_is_variant,
+    p.is_imei as product_is_imei,
+    p.not_selling as product_not_selling,
+    p.is_active as product_is_active,
+    p.created_at as product_created_at,
+    p.updated_at as product_updated_at,
+    p.deleted_at as product_deleted_at
+FROM categories c
+LEFT JOIN products p ON c.id = p.category_id
+WHERE c.deleted_at IS NULL AND p.deleted_at IS NULL;
+
     `;
 
     db.query(query, (err, results) => {
