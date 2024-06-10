@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     database: 'antraxse_pos5'
 });
 
-// Conectar a MySQL
+// Conectar a MySQL nuevo de nuevo
 db.connect((err) => {
     if (err) {
         throw err;
