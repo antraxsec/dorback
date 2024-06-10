@@ -1,7 +1,11 @@
 const express = require('express');
 const mysql = require('mysql');
+const cors = require('cors');
 const app = express();
 const port = 3000;
+
+// Usar el middleware cors
+app.use(cors());
 
 // Configuración de la conexión a MySQL
 const db = mysql.createConnection({
@@ -28,7 +32,7 @@ app.get('/createdb', (req, res) => {
     });
 });
 
-
+// Ruta para actualizar el precio de un producto
 app.put('/api/items/:id/price', (req, res) => {
     const { id } = req.params;
     const { price } = req.body;
@@ -45,7 +49,7 @@ app.put('/api/items/:id/price', (req, res) => {
     });
 });
 
-
+// Ruta para obtener los productos con sus categorías
 app.get('/api/items', (req, res) => {
     const query = `
         SELECT 
